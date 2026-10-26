@@ -532,6 +532,8 @@ class Listview
 //		$search_button.= img_search();
 //		$search_button.= '&nbsp;'.img_searchclear();
 //		$search_button.= '</div>';
+		// Search buttons are now in the selectedfields column (showFilterAndCheckAddButtons)
+		$search_button = '';
 
 		if($nb_search_in_bar>0 || !empty($TParam['list']['head_search']))
 		{
@@ -898,6 +900,10 @@ class Listview
 			{
 				$out.='<tfoot><tr class="liste_total">';
 
+				// Empty cell of the selectedfields column on the same side as in the header (first with MAIN_CHECKBOX_LEFT_COLUMN)
+				$selectedfieldsFirst = (array_key_first($THeader) === 'selectedfields');
+				if ($selectedfieldsFirst) $out.= '<td class="selectedfields"></td>';
+
 				foreach ($THeader as $field => $head)
 				{
 					if (isset($TTotal[$field]))
@@ -909,7 +915,7 @@ class Listview
 					}
 				}
 
-				if (isset($THeader['selectedfields'])) $out.= '<td class="selectedfields"></td>';
+				if (isset($THeader['selectedfields']) && !$selectedfieldsFirst) $out.= '<td class="selectedfields"></td>';
 				$out.='</tr></tfoot>';
 			}
 		}
